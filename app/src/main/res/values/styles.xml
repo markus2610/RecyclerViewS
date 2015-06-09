@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:listDivider">@drawable/list_divider</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
+    <style name="PopupMenu" parent="Base.ThemeOverlay.AppCompat">
+        <item name="android:background">@color/blue_500</item>
+        <item name="android:popupBackground">@color/white</item>
+        <!-- <color name="base_actionbar">#e51c23</color> -->
+    </style>
+
+    <style name="toolbarStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+    </style>
+
+</resources>

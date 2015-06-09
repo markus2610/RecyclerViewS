@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                tools:context=".MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_main_toolbar"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/light_blue_500"
+        android:popupTheme="@style/PopupMenu"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        >
+
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+
+        android:id="@+id/activity_main_frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="?attr/actionBarSize"
+
+        >
+
+
+    </FrameLayout>
+
+</RelativeLayout>

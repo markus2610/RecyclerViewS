@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+    android:background="?attr/selectableItemBackground"
+
+
+    >
+    <!--android:background="@drawable/ripple_bg"-->
+    <LinearLayout
+        android:id="@+id/list_item_facade_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
+        android:paddingRight="@dimen/abc_list_item_padding_horizontal_material"
+        android:paddingTop="8dp">
+
+
+        <TextView
+            android:id="@+id/list_item_main_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Header test"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/black"
+            />
+
+
+        <TextView
+            android:id="@+id/list_item_sub_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test2"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            />
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/list_item_rear_right_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/red_500"
+        android:visibility="invisible">
+
+        <Button
+            android:id="@android:id/button1"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/ic_alarm_white_24dp"
+            android:gravity="center"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/list_item_rear_left_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/green_500"
+        android:visibility="invisible">
+
+        <Button
+            android:id="@android:id/button1"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/ic_delete_white_24dp"
+            android:gravity="center"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>
