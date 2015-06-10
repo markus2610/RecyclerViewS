@@ -47,18 +47,19 @@ public class MainActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         //        itemProvider();
 //        archiveProvider();
-//        getContentResolver().delete(DataContract.ItemEntry.URI_TABLE, null,null);
+        getContentResolver().delete(DataContract.ItemEntry.URI_TABLE, null,null);
         ExtendAsyncQueryHandler extendAsyncQueryHandler = new ExtendAsyncQueryHandler(getContentResolver());
 //        extendAsyncQueryHandler.startDelete(5000,null, DataContract.ItemEntry.buildItemUri(4), null,null);
 //        extendAsyncQueryHandler.startDelete(5000,null, DataContract.ItemEntry.buildItemUri(2), null,null);
-//        for (int i = 0; i < 20; i++) {
-//            ContentValues contentValues = new ContentValues();
-//            contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_MAIN_TEXT, "item" + i);
-//            contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_SUB_TEXT, "sub item" + i);
-//            contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_POSITION, i);
-//            contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_STYLE, 100);
-//            extendAsyncQueryHandler.startInsert(i, null, DataContract.ItemEntry.CONTENT_URI, contentValues);
-//        }
+        for (int i = 0; i < 20; i++) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_MAIN_TEXT, "item" + i);
+            contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_SUB_TEXT, "sub item" + i);
+            contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_POSITION, i);
+            contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_STYLE, 100);
+            extendAsyncQueryHandler.startInsert(i, null, DataContract.ItemEntry.CONTENT_URI, contentValues);
+        }
+
 
 
 

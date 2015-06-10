@@ -61,6 +61,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             int id = mItemList.get(adapterPosition).getUniqueId();
+            Log.d(LOG_TAG, "Item position: " + mItemList.get(adapterPosition).getPosition());
             mItemAdapterOnClickListener.onClicked(id);
         }
 
@@ -200,12 +201,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     }
 
-    public int remove(int position) {
+    public Item remove(int position) {
         Item item = mItemList.remove(position);
 
         notifyItemRemoved(position);
-        return item.getUniqueId();
+//        return item.getUniqueId();
 
+        return item;
         // Cotent resolver
     }
 

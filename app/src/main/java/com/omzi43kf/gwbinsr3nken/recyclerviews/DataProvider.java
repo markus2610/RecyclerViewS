@@ -135,6 +135,10 @@ public class DataProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
 
+
+
+
+
             case ARCHIVE:
                 long _archiveId = db.insert(DataContract.ArchiveEntry.TABLE_NAME, null, values);
                 if (_archiveId > 0)

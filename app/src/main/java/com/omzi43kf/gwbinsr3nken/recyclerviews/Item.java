@@ -9,6 +9,7 @@ public class Item {
     private String mSubText;
     private int mStyle;
     private int mUniqueId;
+    private int mPosition;
 
     {
         mStyle = ItemAdapter.NORMAL_LIST_ITEM;
@@ -52,5 +53,14 @@ public class Item {
 
     public void setUniqueId(int uniqueId) {
         mUniqueId = uniqueId;
+    }
+
+
+    public int getPosition() {
+        return mPosition;
+    }
+
+    public void setPosition(int position) {
+        mPosition = position;
     }
 }

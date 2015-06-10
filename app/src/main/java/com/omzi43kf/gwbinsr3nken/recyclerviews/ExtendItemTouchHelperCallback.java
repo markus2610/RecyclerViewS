@@ -10,8 +10,8 @@ import android.view.animation.Interpolator;
  */
 public abstract class ExtendItemTouchHelperCallback extends ItemTouchHelper.Callback{
 
-    private int mCachedMaxScrollSpeed = -1;
-    private static final long DRAG_SCROLL_ACCELERATION_LIMIT_TIME_MS = 2000;
+    private int mCachedMaxScrollSpeed = -1; // default
+    private static final long DRAG_SCROLL_ACCELERATION_LIMIT_TIME_MS = 2000; // default
 
 
     @Override
@@ -37,7 +37,7 @@ public abstract class ExtendItemTouchHelperCallback extends ItemTouchHelper.Call
     public abstract void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive);
 
 
-
+    // default
     @Override
     public int interpolateOutOfBoundsScroll(RecyclerView recyclerView, int viewSize, int viewSizeOutOfBounds, int totalSize, long msSinceStartScroll) {
 //        return super.interpolateOutOfBoundsScroll(recyclerView, viewSize, viewSizeOutOfBounds, totalSize, msSinceStartScroll);
@@ -65,7 +65,7 @@ public abstract class ExtendItemTouchHelperCallback extends ItemTouchHelper.Call
         return value;
     }
 
-
+    // default
     private int getMaxDragScroll(RecyclerView recyclerView) {
         if (mCachedMaxScrollSpeed == -1) {
             mCachedMaxScrollSpeed = recyclerView.getResources().getDimensionPixelSize(
@@ -74,13 +74,15 @@ public abstract class ExtendItemTouchHelperCallback extends ItemTouchHelper.Call
         return mCachedMaxScrollSpeed;
     }
 
+    // default
     private static final Interpolator sDragScrollInterpolator = new Interpolator() {
         public float getInterpolation(float t) {
-//            return t * t * t * t * t;
-            return (int)Math.pow(2, (double) t);
+//            return t * t * t * t * t; // default return value, but it's too late for me
+            return (int)Math.pow(2, (double) t); // optional whatever you like
         }
     };
 
+    // default
     private static final Interpolator sDragViewScrollCapInterpolator = new Interpolator() {
         public float getInterpolation(float t) {
             t -= 1.0f;

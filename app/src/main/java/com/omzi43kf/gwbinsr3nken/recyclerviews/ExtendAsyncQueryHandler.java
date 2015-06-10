@@ -2,6 +2,7 @@ package com.omzi43kf.gwbinsr3nken.recyclerviews;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Message;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.util.Log;
  */
 public class ExtendAsyncQueryHandler extends AsyncQueryHandler{
     private static final String LOG_TAG = ExtendAsyncQueryHandler.class.getSimpleName();
+    private QueryCompletedListener mQueryCompletedListener;
 
     public ExtendAsyncQueryHandler(ContentResolver cr) {
         super(cr);
@@ -19,7 +21,7 @@ public class ExtendAsyncQueryHandler extends AsyncQueryHandler{
     @Override
     protected void onInsertComplete(int token, Object cookie, Uri uri) {
         super.onInsertComplete(token, cookie, uri);
-        Log.d(LOG_TAG, "insert complete"  + " token: " + token);
+        Log.d(LOG_TAG, "insert complete" + " token: " + token);
     }
 
     @Override
@@ -38,4 +40,18 @@ public class ExtendAsyncQueryHandler extends AsyncQueryHandler{
     public void handleMessage(Message msg) {
         super.handleMessage(msg);
     }
+
+    @Override
+    protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+        super.onQueryComplete(token, cookie, cursor);
+    }
+
+    public void setQueryCompletedListener(QueryCompletedListener queryCompletedListener) {
+        mQueryCompletedListener = queryCompletedListener;
+    }
+
+    public interface QueryCompletedListener {
+        void queryCompleted(Cursor cursor);
+    }
+
 }

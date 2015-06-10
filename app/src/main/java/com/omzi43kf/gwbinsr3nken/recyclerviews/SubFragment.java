@@ -1,6 +1,7 @@
 package com.omzi43kf.gwbinsr3nken.recyclerviews;
 
 
+import android.content.ContentValues;
 import android.graphics.Canvas;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SubFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Item>>{
+public class SubFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Item>> {
 
     private static final String LOG_TAG = SubFragment.class.getSimpleName();
 
@@ -38,6 +40,7 @@ public class SubFragment extends Fragment implements LoaderManager.LoaderCallbac
     private View mEmptyView;
     private int LOADER_ID = 10;
     private FloatingActionButton mFloatingActionButton;
+    private ImageButton mLoaderStartButton;
 
     public SubFragment() {
         // Required empty public constructor
@@ -50,6 +53,14 @@ public class SubFragment extends Fragment implements LoaderManager.LoaderCallbac
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sub, container, false);
 
+
+        mLoaderStartButton = (ImageButton) view.findViewById(R.id.loader_start_button);
+        mLoaderStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loaderStart();
+            }
+        });
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_sub_recycler_view);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -71,10 +82,19 @@ public class SubFragment extends Fragment implements LoaderManager.LoaderCallbac
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               loaderStart();
+                int adapterSize = mItemAdapter.getItemCount();
+                final ExtendAsyncQueryHandler extendAsyncQueryHandler = new ExtendAsyncQueryHandler(getActivity().getContentResolver());
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_MAIN_TEXT, "newly added item");
+                contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_SUB_TEXT, "newly added sub item");
+                contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_POSITION, adapterSize);
+                contentValues.put(DataContract.ItemEntry.COLUMN_ITEM_STYLE, 100);
+                extendAsyncQueryHandler.startInsert(0, null, DataContract.ItemEntry.CONTENT_URI, contentValues);
+
+                loaderStart();
             }
         });
-
 
 
         return view;
@@ -107,38 +127,44 @@ public class SubFragment extends Fragment implements LoaderManager.LoaderCallbac
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 if (viewHolder instanceof ItemAdapter.ViewHolder) {
                     int position = viewHolder.getAdapterPosition();
-                    if (position == 0) {
-                        return 0;
-                    } else {
-                        return makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) | makeFlag(ItemTouchHelper.ACTION_STATE_DRAG, ItemTouchHelper.UP | ItemTouchHelper.DOWN);
-                    }
+
+
 //                    Log.d(LOG_TAG, "movement frag: position: " + position);
 
                 }
 
-                return 0;
+                return makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) | makeFlag(ItemTouchHelper.ACTION_STATE_DRAG, ItemTouchHelper.UP | ItemTouchHelper.DOWN);
 
-//                return 0;
             }
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 final int fromPos = viewHolder.getAdapterPosition();
                 final int toPos = target.getAdapterPosition();
+
                 Log.d(LOG_TAG, " postion " + "From: " + fromPos + " TO: " + toPos);
                 mItemAdapter.move(fromPos, toPos);
+
 
                 return true;
             }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
-                int removedId = mItemAdapter.remove(viewHolder.getAdapterPosition());
-//                Snackbar.make(mRecyclerView, "Item removed, position: " + viewHolder.getAdapterPosition(), Snackbar.LENGTH_SHORT).show();
-                Snackbar.make(mRecyclerView, "Item removed, position: " + removedId, Snackbar.LENGTH_SHORT).show();
+                Item item = mItemAdapter.remove(viewHolder.getAdapterPosition());
+                int removedId = item.getUniqueId();
 
-                ExtendAsyncQueryHandler extendAsyncQueryHandler = new ExtendAsyncQueryHandler(getActivity().getContentResolver());
+//                Snackbar.make(mRecyclerView, "Item removed, position: " + viewHolder.getAdapterPosition(), Snackbar.LENGTH_SHORT).show();
+                final ExtendAsyncQueryHandler extendAsyncQueryHandler = new ExtendAsyncQueryHandler(getActivity().getContentResolver());
                 extendAsyncQueryHandler.startDelete(removedId, null, DataContract.ItemEntry.buildItemUri(removedId), null, null);
+
+                Snackbar.make(mRecyclerView, "Item removed, position: " + removedId, Snackbar.LENGTH_SHORT).setAction(getResources().getString(R.string.snack_bar_action), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }).show();
+
 
                 Log.d(LOG_TAG, "removed row; " + removedId);
 //                ((ItemAdapter.ViewHolder) viewHolder).setLayoutVisibility(false);
@@ -181,8 +207,7 @@ public class SubFragment extends Fragment implements LoaderManager.LoaderCallbac
             @Override
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
-                Log.d(LOG_TAG, "dx: " + dX + " dy: " + dY);
-
+//                Log.d(LOG_TAG, "dx: " + dX + " dy: " + dY);
 
 
                 if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
@@ -261,13 +286,15 @@ public class SubFragment extends Fragment implements LoaderManager.LoaderCallbac
     @Override
     public Loader<List<Item>> onCreateLoader(int id, Bundle args) {
 //        return null;
-        return new ItemListLoader(getActivity(), getActivity().getContentResolver());
+//        return new ItemListLoader(getActivity(), getActivity().getContentResolver());
+        return new ItemSearchListLoader(getActivity(),getActivity().getContentResolver(),"item1");
     }
 
     @Override
     public void onLoadFinished(Loader<List<Item>> loader, List<Item> itemList) {
         Log.d(LOG_TAG, "load finished");
         mItemAdapter.setData(itemList);
+        Log.d(LOG_TAG, "Item count: " + mItemAdapter.getItemCount());
     }
 
     @Override

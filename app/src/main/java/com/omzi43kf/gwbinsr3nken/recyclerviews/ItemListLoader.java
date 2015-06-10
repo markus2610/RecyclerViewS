@@ -41,7 +41,11 @@ public class ItemListLoader extends AsyncTaskLoader<List<Item>> {
     public List<Item> loadInBackground() {
 //        return null;
         mItemList = new ArrayList<>();
+
+//        String orderBy =  DataContract.ItemEntry.COLUMN_ITEM_POSITION + " DESC";
+
         mCursor = mContentResolver.query(DataContract.ItemEntry.CONTENT_URI, itemProjection, null, null, null);
+//        mCursor = mContentResolver.query(DataContract.ItemEntry.CONTENT_URI, itemProjection, null, null, orderBy);
 
 
         if (mCursor != null) {
@@ -61,6 +65,7 @@ public class ItemListLoader extends AsyncTaskLoader<List<Item>> {
 
 
                     Item item = new Item(mainText, subText, _id);
+                    item.setPosition(position);
 
 
                     mItemList.add(item);
